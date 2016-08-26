@@ -17,7 +17,9 @@ import com.neolynks.common.util.CSVWriter;
 
 /**
  * Purpose of this file is to handle all inventory related operations locally on
- * vendor side machines.
+ * vendor side machines. It simply invokes the vendor side adapter, fetches all
+ * the new inventory, that is from the time last sync was done, and pushes the
+ * same and it's meta data into certain files.
  * 
  * Created by nitesh.garg on 02-Oct-2015
  */

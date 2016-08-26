@@ -18,7 +18,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Map;
 
-import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,17 +25,7 @@ import com.example.helloworld.auth.ExampleAuthenticator;
 import com.example.helloworld.auth.ExampleAuthorizer;
 import com.example.helloworld.cli.RenderCommand;
 import com.example.helloworld.core.Person;
-import com.example.helloworld.core.Template;
 import com.example.helloworld.core.User;
-import com.example.helloworld.db.PersonDAO;
-import com.example.helloworld.filter.DateRequiredFeature;
-import com.example.helloworld.health.TemplateHealthCheck;
-import com.example.helloworld.resources.FilteredResource;
-import com.example.helloworld.resources.HelloWorldResource;
-import com.example.helloworld.resources.PeopleResource;
-import com.example.helloworld.resources.PersonResource;
-import com.example.helloworld.resources.ProtectedResource;
-import com.example.helloworld.resources.ViewResource;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.neolynks.common.model.client.price.DiscountDetail;
@@ -48,6 +37,7 @@ import com.neolynks.common.model.order.DeliveryMode;
 import com.neolynks.common.model.order.ItemRequest;
 import com.neolynks.common.util.PasswordHash;
 import com.neolynks.vendor.ClientResource;
+import com.neolynks.vendor.auth.Account;
 import com.neolynks.vendor.job.InventorySync;
 import com.neolynks.vendor.manager.AccountService;
 import com.neolynks.vendor.manager.InventoryService;
@@ -61,7 +51,7 @@ public class LectorApplication extends Application<LectorConfiguration> {
     }
 
     private final HibernateBundle<LectorConfiguration> hibernateBundle =
-            new HibernateBundle<LectorConfiguration>(Person.class) {
+            new HibernateBundle<LectorConfiguration>(Person.class, Account.class) {
                 @Override
                 public DataSourceFactory getDataSourceFactory(LectorConfiguration configuration) {
                     return configuration.getDataSourceFactory();
@@ -105,18 +95,16 @@ public class LectorApplication extends Application<LectorConfiguration> {
     	
     	
 		LOGGER.info("Initialising Lector, starting with setting up DAO classes & service layer for authentication and authorization...");
-		//final PersonDAO dao = new PersonDAO(hibernateBundle.getSessionFactory());
 		final AccountService accountService = new AccountService(hibernateBundle.getSessionFactory());
 		
 		LOGGER.info("Setting up the business-logic class followed by registering the inventory resource and it's lifecycle...");
 		final InventoryService inventoryService = new InventoryService(configuration.getCurationConfig());
+		
 		environment.jersey().register(new ClientResource(inventoryService));
 		environment.lifecycle().manage(new InventorySync(configuration.getCurationConfig()));
 
 		//final Template template = configuration.buildTemplate();
-
 		//environment.healthChecks().register("template", new TemplateHealthCheck(template));
-		//environment.jersey().register(DateRequiredFeature.class);
 		
 		environment.jersey().register(
 				new AuthDynamicFeature(new BasicCredentialAuthFilter.Builder<com.neolynks.vendor.auth.User>()
@@ -124,16 +112,7 @@ public class LectorApplication extends Application<LectorConfiguration> {
 						.setAuthorizer(new ExampleAuthorizer())
 						.setRealm("SUPER SECRET STUFF").buildAuthFilter()));
 		environment.jersey().register(new AuthValueFactoryProvider.Binder<>(User.class));
-		//environment.jersey().register(RolesAllowedDynamicFeature.class);
-		
-		//environment.jersey().register(new HelloWorldResource(template));
-		//environment.jersey().register(new ViewResource());
-		//environment.jersey().register(new ProtectedResource());
 
-		//environment.jersey().register(new PeopleResource(dao));
-		//environment.jersey().register(new PersonResource(dao));
-
-		//environment.jersey().register(new FilteredResource());
 
 		temporaryCode();
 		LOGGER.info("Initialisation complete.");

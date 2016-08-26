@@ -140,7 +140,9 @@ values(289,'I0007',11,'D4','D-Description','D-Tagline', '1240', 1111.32, 1112.12
 	 */
 	public List<ItemMaster> getAllInventory() {
 		List<ItemMaster> response = new ArrayList<ItemMaster>();
-		response.add(itemList.get(itemList.size()-1));
+		//response.add(itemList.get(itemList.size()-1));
+		response.add(new ItemMaster(null, 1234567891L, "ICode001", null, "IName001-3", "ITagLine001-2",
+				"IDesc001-3", 91.91D, 91.90D, null, null, null, new Date(System.currentTimeMillis())));
 		response.add(new ItemMaster(null, 1234567892L, "ICode002", null, "IName002-3", "ITagLine002-2",
 				"IDesc002-3", 92.91D, 92.90D, null, null, null, new Date(System.currentTimeMillis())));
 		response.add(new ItemMaster(null, 1234567893L, "ICode003", null, "IName003-3", "ITagLine003-2",
