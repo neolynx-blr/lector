@@ -15,99 +15,161 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-
-        <!-- You'll probably want to remove this for your project. We're just using it here
-             so that dropwizard-example doesn't get deployed as a library. -->
         <maven.deploy.skip>true</maven.deploy.skip>
-        <!-- You'll probably want to remove this for your project. We'Re just using it here
-             so that dropwizard-example site doesn't get staged and deployed. -->
         <maven.site.skip>true</maven.site.skip>
         <maven.site.deploy.skip>true</maven.site.deploy.skip>
+        <dropwizard.version>1.0.0</dropwizard.version>
+        <guava.version>19.0</guava.version>
+        <jersey.version>2.23.1</jersey.version>
+        <jackson.api.version>2.7.6</jackson.api.version>
+        <jackson.version>2.7.6</jackson.version>
+        <jetty.version>9.3.9.v20160517</jetty.version>
+        <servlet.version>3.0.0.v201112011016</servlet.version>
+        <metrics3.version>3.1.2</metrics3.version>
+        <slf4j.version>1.7.21</slf4j.version>
+        <logback.version>1.1.7</logback.version>
+        <h2.version>1.4.192</h2.version>
     </properties>
-
-    <repositories>
-        <repository>
-            <id>sonatype-nexus-snapshots</id>
-            <name>Sonatype Nexus Snapshots</name>
-            <url>http://oss.sonatype.org/content/repositories/snapshots</url>
-        </repository>
-    </repositories>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>io.dropwizard</groupId>
-                <artifactId>dropwizard-bom</artifactId>
-                <version>${project.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <dependencies>
         <dependency>
             <groupId>io.dropwizard</groupId>
             <artifactId>dropwizard-core</artifactId>
+            <version>${dropwizard.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.javassist</groupId>
+                    <artifactId>javassist</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.fasterxml</groupId>
+                    <artifactId>classmate</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>jackson-annotations</artifactId>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>io.dropwizard</groupId>
             <artifactId>dropwizard-auth</artifactId>
+            <version>${dropwizard.version}</version>
         </dependency>
         <dependency>
             <groupId>io.dropwizard</groupId>
             <artifactId>dropwizard-assets</artifactId>
+            <version>${dropwizard.version}</version>
         </dependency>
         <dependency>
             <groupId>io.dropwizard</groupId>
             <artifactId>dropwizard-http2</artifactId>
+            <version>${dropwizard.version}</version>
         </dependency>
         <dependency>
             <groupId>io.dropwizard</groupId>
             <artifactId>dropwizard-hibernate</artifactId>
+            <version>${dropwizard.version}</version>
         </dependency>
         <dependency>
             <groupId>io.dropwizard</groupId>
             <artifactId>dropwizard-migrations</artifactId>
+            <version>${dropwizard.version}</version>
         </dependency>
         <dependency>
             <groupId>io.dropwizard</groupId>
             <artifactId>dropwizard-views-freemarker</artifactId>
+            <version>${dropwizard.version}</version>
         </dependency>
         <dependency>
             <groupId>io.dropwizard</groupId>
             <artifactId>dropwizard-views-mustache</artifactId>
+            <version>${dropwizard.version}</version>
         </dependency>
         <dependency>
             <groupId>io.dropwizard</groupId>
             <artifactId>dropwizard-metrics-graphite</artifactId>
+            <version>${dropwizard.version}</version>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
+            <version>${h2.version}</version>
         </dependency>
         <dependency>
             <groupId>io.dropwizard</groupId>
             <artifactId>dropwizard-testing</artifactId>
+            <version>${dropwizard.version}</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>objenesis</artifactId>
+                    <groupId>org.objenesis</groupId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.mockito</groupId>
+                    <artifactId>mockito-core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.21</version>
         </dependency>
         
         <dependency>
 			<groupId>com.neolynks.common</groupId>
 			<artifactId>fastlane-common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>jackson-annotations</artifactId>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-csv</artifactId>
+                    <groupId>org.apache.commons</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>jackson-databind</artifactId>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                </exclusion>
+            </exclusions>
 		</dependency>
-
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.7.6</version>
+        </dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<version>1.16.8</version>
-			<scope>provided</scope>
 		</dependency>        
         
         <dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
+            <version>4.5.2</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
 		</dependency>
 		
 		<dependency>
@@ -125,6 +187,7 @@
         <dependency>
             <groupId>org.glassfish.jersey.test-framework.providers</groupId>
             <artifactId>jersey-test-framework-provider-inmemory</artifactId>
+            <version>${jersey.version}</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
@@ -140,6 +203,7 @@
         <dependency>
             <groupId>org.glassfish.jersey.test-framework.providers</groupId>
             <artifactId>jersey-test-framework-provider-grizzly2</artifactId>
+            <version>${jersey.version}</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
@@ -152,6 +216,19 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>1.10.19</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>hamcrest-core</artifactId>
+                    <groupId>org.hamcrest</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
     </dependencies>
 
     <build>

@@ -35,7 +35,7 @@ import com.neolynks.common.model.client.price.TaxInfo;
 import com.neolynks.common.model.order.CartRequest;
 import com.neolynks.common.model.order.DeliveryMode;
 import com.neolynks.common.model.order.ItemRequest;
-import com.neolynks.common.util.PasswordHash;
+//import com.neolynks.common.util.PasswordHash;
 import com.neolynks.vendor.ClientResource;
 import com.neolynks.vendor.auth.Account;
 import com.neolynks.vendor.job.InventorySync;
@@ -123,16 +123,16 @@ public class LectorApplication extends Application<LectorConfiguration> {
 		/************************************ Temporary Code *******************************************/
 		
 		try {
-			String passwordHash = PasswordHash.createHash("passwd");
-			System.out.println("Hash for password:" + passwordHash);
-			System.out.println("Password Match:"+ PasswordHash.validatePassword("passwd", passwordHash));
-			passwordHash = PasswordHash.createHash("analyst");
-			System.out.println("Hash for password:" + passwordHash);
-			System.out.println("Password Match:"+ PasswordHash.validatePassword("analyst", passwordHash));
-			passwordHash = PasswordHash.createHash("vendor");
-			System.out.println("Hash for password:" + passwordHash);
-			System.out.println("Password Match:"+ PasswordHash.validatePassword("vendor", passwordHash));
-			
+//			String passwordHash = PasswordHash.createHash("passwd");
+//			System.out.println("Hash for password:" + passwordHash);
+//			System.out.println("Password Match:"+ PasswordHash.validatePassword("passwd", passwordHash));
+//			passwordHash = PasswordHash.createHash("analyst");
+//			System.out.println("Hash for password:" + passwordHash);
+//			System.out.println("Password Match:"+ PasswordHash.validatePassword("analyst", passwordHash));
+//			passwordHash = PasswordHash.createHash("vendor");
+//			System.out.println("Hash for password:" + passwordHash);
+//			System.out.println("Password Match:"+ PasswordHash.validatePassword("vendor", passwordHash));
+//
 			DiscountInfo discount1 = new DiscountInfo();
 			//discount1.setDiscountedItemCode("ITEM201");
 			//discount1.setDiscountType(6);
@@ -196,13 +196,15 @@ public class LectorApplication extends Application<LectorConfiguration> {
 			System.out.println(mapper.writeValueAsString(cart));
 			System.out.println("Finished temporary code execution ...");
 			
-		} catch (NoSuchAlgorithmException e) {
-			System.out.println("Failed with exception:"+ e.getClass().getName());
-			e.printStackTrace();
-		} catch (InvalidKeySpecException e) {
-			System.out.println("Failed with exception:"+ e.getClass().getName());
-			e.printStackTrace();
-		} catch (JsonProcessingException e) {
+		}
+//        catch (NoSuchAlgorithmException e) {
+//			System.out.println("Failed with exception:"+ e.getClass().getName());
+//			e.printStackTrace();
+//		} catch (InvalidKeySpecException e) {
+//			System.out.println("Failed with exception:"+ e.getClass().getName());
+//			e.printStackTrace();
+//		}
+        catch (JsonProcessingException e) {
 			System.out.println("Failed with exception:"+ e.getClass().getName());
 			e.printStackTrace();
 		}

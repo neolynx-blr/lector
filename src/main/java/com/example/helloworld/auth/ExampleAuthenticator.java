@@ -12,7 +12,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.neolynks.common.util.PasswordHash;
+//import com.neolynks.common.util.PasswordHash;
 import com.neolynks.vendor.auth.Account;
 import com.neolynks.vendor.auth.User;
 import com.neolynks.vendor.manager.AccountService;
@@ -37,10 +37,13 @@ public class ExampleAuthenticator implements Authenticator<BasicCredentials, Use
 
 		if (accountDetail.isPresent()) {
 			try {
-				if (PasswordHash.validatePassword(credentials.getPassword(), accountDetail.get().getPasswordHash())) {
-					return Optional.of(new User(accountDetail.get()));
-				}
-			} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+                // FIXME
+//				if (PasswordHash.validatePassword(credentials.getPassword(), accountDetail.get().getPasswordHash())) {
+//					return Optional.of(new User(accountDetail.get()));
+//				}
+                return Optional.of(new User(accountDetail.get()));
+			}
+            catch (Exception e) {
 				LOGGER.error("Received message [{}} while authenticating credentials for user [{}}", e.getMessage(),
 						credentials.getUsername());
 				e.printStackTrace();
